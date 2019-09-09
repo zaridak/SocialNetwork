@@ -15,3 +15,6 @@ class Interval:
 
     def toString(self):
         print("Min = "+str(self.minValue)+"\nMax = "+str(self.maxValue))
+
+    def intervalPrint(self):
+        print("["+str(self.minValue)+","+str(self.maxValue)+"]")

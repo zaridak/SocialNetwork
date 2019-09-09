@@ -3,7 +3,7 @@ from Interval import Interval
 
 print("Give N")
 # N = int(sys.stdin.readline())
-N = 2
+N = 4
 allNodes = list()  # holds all the lines from txt as object(sourid,targetid,timestamp)
 minTimeStamp: int
 maxTimeStamp: int
@@ -26,7 +26,7 @@ print("Exw sunolika " + str(len(allNodes)) + " nodes")
 #         minStamp = int(run.getTimeStamp())
 
 dif = (maxTimeStamp - minTimeStamp)
-step = float(maxTimeStamp/N)
+step = float(dif/N)
 # todo find the correct interval limits
 print("Min: " + str(minTimeStamp) + "\nMax: " + str(maxTimeStamp) + "\nsec dif = " + str(dif))
 print("Splitting to  " + str(N) + " intervals step: " + str(step))
@@ -37,4 +37,5 @@ for i in range(0, N):
     allIntervals.append(Interval(tmpMin, tmpMin+step))
     tmpMin = tmpMin+step
 for delete in allIntervals:
-    delete.toString()
+    #delete.toString()
+    delete.intervalPrint()
