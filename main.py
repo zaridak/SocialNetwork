@@ -28,7 +28,7 @@ print("Exw sunolika " + str(len(allNodes)) + " nodes")
 dif = (maxTimeStamp - minTimeStamp)
 step = float(dif/N)
 # todo find the correct interval limits
-print("Min: " + str(minTimeStamp) + "\nMax: " + str(maxTimeStamp) + "\nsec dif = " + str(dif))
+print("Min: " + str(minTimeStamp) + " || Max: " + str(maxTimeStamp))#+ "\nsec dif = " + str(dif))
 print("Splitting to  " + str(N) + " intervals step: " + str(step))
 
 allIntervals = list()
@@ -37,5 +37,18 @@ for i in range(0, N):
     allIntervals.append(Interval(tmpMin, tmpMin+step))
     tmpMin = tmpMin+step
 for delete in allIntervals:
-    #delete.toString()
     delete.intervalPrint()
+
+# placing each line into intervals
+for tmpNode in allNodes:
+    for tmpInter in allIntervals:
+        if (float(tmpNode.getTimeStamp()) > float(tmpInter.getMinBound())) and (float(tmpNode.getTimeStamp()) < float(tmpInter.getMaxBound())):
+            print("timeStamp: "+str(tmpNode.getTimeStamp())+" min = "+str(tmpInter.getMinBound())+" max: "+str(tmpInter.getMaxBound()))
+            tmpInter.addNode(tmpNode)
+            tmpNode.setInterval(tmpInter)
+print("TUPWNW NODES @ INTERNALS ")
+
+for aek in allIntervals:
+    print("Gia to interval "+str(aek.getMinMax()))
+    print("Exw sinolika parei "+str(aek.getTotalNodes())+" nodes")
+    print(aek.printTotalNodes())
