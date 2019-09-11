@@ -6,7 +6,7 @@ class Node:
     sourceID: int = 0
     targetID: int = 0
     timeStamp: int = 0
-    interval: Interval  # each node holds the Interval that placed by the program
+    Interval: Interval  # each node holds the Interval that placed by the program
 
     def __init__(self, source, target, time):
         self.sourceID = source
@@ -20,11 +20,12 @@ class Node:
             self.sourceID = tmp[0]
             self.targetID = tmp[1]
             self.timeStamp = tmp[2]
+            self.Interval = Interval
         except Exception as ex:
             sys.exit("Error at Node constructor, wrong file format" + str(ex))
 
     def setInterval(self,interval):
-        self.interval = interval
+        self.Interval = interval
 
     def getInterval(self):
         return self.Interval

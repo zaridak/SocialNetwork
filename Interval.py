@@ -6,9 +6,9 @@ class Interval:
     def __init__(self, minvalue, maxvalue):
         self.minValue = minvalue
         self.maxValue = maxvalue
+        self.intervalNodes = list()
 
     def addNode(self, node):
-        # print("Ekana add node me timeStamp "+str(node.getTimeStamp())+" sto interval "+str(self.minValue)+" , "+str(self.maxValue))
         self.intervalNodes.append(node)
 
     def getTotalNodes(self):
@@ -22,7 +22,7 @@ class Interval:
             print(fu.getTimeStamp())
 
     def toString(self):
-        print("Min = "+str(self.minValue)+"\nMax = "+str(self.maxValue))
+        print("Min = "+str(self.minValue)+" Max = "+str(self.maxValue))
 
     def intervalPrint(self):
         print("["+str(self.minValue)+", "+str(self.maxValue)+"]")
@@ -35,4 +35,3 @@ class Interval:
 
     def getMaxBound(self):
         return self.maxValue
-
