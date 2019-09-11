@@ -3,7 +3,7 @@ from Interval import Interval
 
 print("Give N")
 # N = int(sys.stdin.readline())
-N = 4
+N = 2
 allNodes = list()  # holds all the lines from txt as object(sourid,targetid,timestamp)
 minTimeStamp: int
 maxTimeStamp: int
@@ -26,7 +26,7 @@ print("Exw sunolika " + str(len(allNodes)) + " nodes")
 #         minStamp = int(run.getTimeStamp())
 
 dif = (maxTimeStamp - minTimeStamp)
-step = float(dif/N)
+step = dif/N
 # todo find the correct interval limits
 print("Min: " + str(minTimeStamp) + " || Max: " + str(maxTimeStamp))#+ "\nsec dif = " + str(dif))
 print("Splitting to  " + str(N) + " intervals step: " + str(step))
@@ -39,16 +39,28 @@ for i in range(0, N):
 for delete in allIntervals:
     delete.intervalPrint()
 
+nodeCounter = 0
+intCounter  = 0
 # placing each line into intervals
 for tmpNode in allNodes:
+    nodeCounter+=1
     for tmpInter in allIntervals:
-        if (float(tmpNode.getTimeStamp()) > float(tmpInter.getMinBound())) and (float(tmpNode.getTimeStamp()) < float(tmpInter.getMaxBound())):
-            print("timeStamp: "+str(tmpNode.getTimeStamp())+" min = "+str(tmpInter.getMinBound())+" max: "+str(tmpInter.getMaxBound()))
+        intCounter+=1
+        if float(tmpNode.getTimeStamp()) >= float(tmpInter.getMinBound()) and float(tmpNode.getTimeStamp()) <= float(tmpInter.getMaxBound()):
+            # print("timeStamp: "+str(tmpNode.getTimeStamp())+" Going at min = "+str(tmpInter.getMinBound())+" max: "+str(tmpInter.getMaxBound()))
+            print("Ekana add node me timeStamp " + str(tmpNode.getTimeStamp()) + " sto interval " + str(tmpInter.minValue) + " , " + str(tmpInter.maxValue))
             tmpInter.addNode(tmpNode)
-            tmpNode.setInterval(tmpInter)
+            #tmpNode.setInterval(tmpInter)
 print("TUPWNW NODES @ INTERNALS ")
 
+# for aek in allIntervals:
+#      print("Gia to interval "+str(aek.getMinMax()))
+#      print("Exw sinolika parei "+str(aek.getTotalNodes())+" nodes")
+# #    print(aek.printTotalNodes())
+#
+# for omg in allIntervals:
+#     print(str(omg.getTotalNodes())+" "+str(omg.getMinBound())+" "+str(omg.getMaxBound()))
+#     omg.printTotalNodes()
+
 for aek in allIntervals:
-    print("Gia to interval "+str(aek.getMinMax()))
-    print("Exw sinolika parei "+str(aek.getTotalNodes())+" nodes")
-    print(aek.printTotalNodes())
+    print(aek.getTotalNodes())

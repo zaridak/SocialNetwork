@@ -1,13 +1,14 @@
 class Interval:
     minValue: float = 0
     maxValue: float = 0
-    intervalNodes = list() # list with all nodes placed at this Interval
+    intervalNodes = [] # list with all nodes placed at this Interval
 
     def __init__(self, minvalue, maxvalue):
         self.minValue = minvalue
         self.maxValue = maxvalue
 
     def addNode(self, node):
+        # print("Ekana add node me timeStamp "+str(node.getTimeStamp())+" sto interval "+str(self.minValue)+" , "+str(self.maxValue))
         self.intervalNodes.append(node)
 
     def getTotalNodes(self):

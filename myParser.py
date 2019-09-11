@@ -7,7 +7,7 @@ def readFile():
     minTimeStamp: int = 0
     try:
         nodes = open("tinyDem.txt", "r")
-        #nodes = open("DEMOsx-stackoverflow.txt", "r") #10.000 entries
+        # nodes = open("DEMOsx-stackoverflow.txt", "r") #10.000 entries
         retlist = list()
         for line in nodes:
             retlist.append(Node(line))
