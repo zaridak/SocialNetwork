@@ -1,5 +1,8 @@
+import sys
+import networkx as nx
 import myParser as inputFile
 from Interval import Interval
+import matplotlib.pyplot as plt
 
 print("Give N")
 # N = int(sys.stdin.readline())
@@ -63,3 +66,18 @@ for tmp in allNodes:
     tmp.toString()
     print("Eimai sto ",end=" ")
     tmp.getInterval().toString()
+
+
+
+G = nx.grid_2d_graph(5, 5)  # 5x5 grid
+
+# print the adjacency list
+for line in nx.generate_adjlist(G):
+    print(line)
+# write edgelist to grid.edgelist
+nx.write_edgelist(G, path="grid.edgelist", delimiter=":")
+# read edgelist from grid.edgelist
+H = nx.read_edgelist(path="grid.edgelist", delimiter=":")
+
+nx.draw(H)
+plt.show()
