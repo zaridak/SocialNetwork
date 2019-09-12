@@ -1,8 +1,7 @@
-import sys
+import matplotlib.pyplot as plt
 import networkx as nx
 import myParser as inputFile
 from Interval import Interval
-import matplotlib.pyplot as plt
 
 print("Give N")
 # N = int(sys.stdin.readline())
@@ -30,28 +29,29 @@ print("Exw sunolika " + str(len(allNodes)) + " nodes")
 #         minStamp = int(run.getTimeStamp())
 
 dif = (maxTimeStamp - minTimeStamp)
-step = dif/N
+step = dif / N
 # todo find the correct interval limits
-print("Min: " + str(minTimeStamp) + " || Max: " + str(maxTimeStamp))#+ "\nsec dif = " + str(dif))
+print("Min: " + str(minTimeStamp) + " || Max: " + str(maxTimeStamp))  # + "\nsec dif = " + str(dif))
 print("Splitting to " + str(N) + " intervals step: " + str(step))
 
 allIntervals = []
 
 tmpMin = minTimeStamp
 for i in range(N):
-    allIntervals.append(Interval(tmpMin, tmpMin+step))
-    tmpMin = tmpMin+step
+    allIntervals.append(Interval(tmpMin, tmpMin + step))
+    tmpMin = tmpMin + step
 for delete in allIntervals:
     delete.intervalPrint()
 
 nodeCounter = 0
-intCounter  = 0
+intCounter = 0
 # placing each line into intervals
 for tmpNode in allNodes:
-    nodeCounter+=1
+    nodeCounter += 1
     for tmpInter in allIntervals:
-        intCounter+=1
-        if float(tmpNode.getTimeStamp()) >= float(tmpInter.getMinBound()) and float(tmpNode.getTimeStamp()) <= float(tmpInter.getMaxBound()):
+        intCounter += 1
+        if float(tmpNode.getTimeStamp()) >= float(tmpInter.getMinBound()) and float(tmpNode.getTimeStamp()) <= float(
+                tmpInter.getMaxBound()):
             # print("timeStamp: "+str(tmpNode.getTimeStamp())+" Going at min = "+str(tmpInter.getMinBound())+" max: "+str(tmpInter.getMaxBound()))
             # print("Ekana add node me timeStamp " + str(tmpNode.getTimeStamp()) + " sto interval " + str(tmpInter.minValue) + " , " + str(tmpInter.maxValue))
             tmpInter.addNode(tmpNode)
@@ -60,24 +60,43 @@ print("TUPWNW NODES @ INTERNALS ")
 
 for tmp in allIntervals:
     tmp.intervalPrint()
-    print("Exw "+str(tmp.getTotalNodes())+" nodes")
+    print("Exw " + str(tmp.getTotalNodes()) + " nodes")
 
-for tmp in allNodes:
-    tmp.toString()
-    print("Eimai sto ",end=" ")
-    tmp.getInterval().toString()
-
-
+# for tmp in allNodes:
+#     tmp.toString()
+#     print("Eimai sto ",end=" ")
+#     tmp.getInterval().toString()
 
 G = nx.grid_2d_graph(5, 5)  # 5x5 grid
 
 # print the adjacency list
+# for line in nx.generate_adjlist(G):
+#     print(line)
+# write edgelist to grid.edgelist
+# nx.write_edgelist(G, path="grid.edgelist", delimiter=":")
+# read edgelist from grid.edgelist
+# H = nx.read_edgelist(path="grid.edgelist", delimiter=":")
+
+# nx.draw(H)
+# plt.show()
+
+
+G=nx.Graph()
+G.add_node("a")
+G.add_nodes_from(["b","c"])
+
+G.add_edge(1,2)
+edge = ("d", "e")
+G.add_edge(*edge)
+edge = ("a", "b")
+G.add_edge(*edge)
+
+print("Nodes of graph: ")
+print(G.nodes())
+print("Edges of graph: ")
+print(G.edges())
 for line in nx.generate_adjlist(G):
     print(line)
-# write edgelist to grid.edgelist
-nx.write_edgelist(G, path="grid.edgelist", delimiter=":")
-# read edgelist from grid.edgelist
-H = nx.read_edgelist(path="grid.edgelist", delimiter=":")
 
-nx.draw(H)
-plt.show()
+nx.draw(G)
+plt.savefig("simple_path.png") # save as png
