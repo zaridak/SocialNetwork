@@ -52,15 +52,15 @@ for tmpNode in allNodes:
         intCounter += 1
         if float(tmpNode.getTimeStamp()) >= float(tmpInter.getMinBound()) and float(tmpNode.getTimeStamp()) <= float(
                 tmpInter.getMaxBound()):
-            # print("timeStamp: "+str(tmpNode.getTimeStamp())+" Going at min = "+str(tmpInter.getMinBound())+" max: "+str(tmpInter.getMaxBound()))
-            # print("Ekana add node me timeStamp " + str(tmpNode.getTimeStamp()) + " sto interval " + str(tmpInter.minValue) + " , " + str(tmpInter.maxValue))
             tmpInter.addNode(tmpNode)
             tmpNode.setInterval(tmpInter)
 print("TUPWNW NODES @ INTERNALS ")
 
 for tmp in allIntervals:
     tmp.intervalPrint()
-    print("Exw " + str(tmp.getTotalNodes()) + " nodes")
+    print("Exw " + str(tmp.getTotalNodes()) + " nodes ta:")
+    for aek in tmp.getIntervalNodes():
+        print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
 
 # for tmp in allNodes:
 #     tmp.toString()
@@ -70,33 +70,50 @@ for tmp in allIntervals:
 G = nx.grid_2d_graph(5, 5)  # 5x5 grid
 
 # print the adjacency list
-# for line in nx.generate_adjlist(G):
-#     print(line)
-# write edgelist to grid.edgelist
-# nx.write_edgelist(G, path="grid.edgelist", delimiter=":")
-# read edgelist from grid.edgelist
-# H = nx.read_edgelist(path="grid.edgelist", delimiter=":")
 
 # nx.draw(H)
 # plt.show()
 
-
 G=nx.Graph()
-G.add_node("a")
-G.add_nodes_from(["b","c"])
+# G.add_node("a")
+# G.add_nodes_from(["d","b","c"])
+# G.add_node("aek")
+# G.add_node("original")
+# edge = ("d", "e")
+# G.add_edge(*edge)
+# edge = ("a", "b")
+# G.add_edge(*edge)
+# G.add_edge(*edge)
+# edge= ("aek","original")
+# G.add_edge(*edge)
+# edge = ("c","aek")
+# G.add_edge(*edge)
+# print("Nodes of graph: ")
+# print(G.nodes())
+# print("Edges of graph: ")
+# print(G.edges())
+# for line in nx.generate_adjlist(G):
+#    print(line)
 
-G.add_edge(1,2)
-edge = ("d", "e")
-G.add_edge(*edge)
-edge = ("a", "b")
-G.add_edge(*edge)
+#iterate all intervals and create Graphs
+for i in range(0,1):
+    for tmpInt in allIntervals: # for each interval
+        if tmpInt.hasNodes() is True:
+            for tmpNode in tmpInt.getIntervalNodes():
+                G.add_edge(tmpNode.getSourceID(),tmpNode.getTargetID())
 
-print("Nodes of graph: ")
-print(G.nodes())
-print("Edges of graph: ")
-print(G.edges())
-for line in nx.generate_adjlist(G):
-    print(line)
+
+
 
 nx.draw(G)
 plt.savefig("simple_path.png") # save as png
+
+print(G.nodes())
+# print(G.edges())
+
+G.remove_edges_from(G.edges())
+G.add_edge("9","8")
+G.add_edge("1","1")
+print(G.edges())
+nx.draw(G)
+plt.savefig("simple_path2.png") # save as png

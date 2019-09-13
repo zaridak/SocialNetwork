@@ -14,6 +14,9 @@ class Interval:
     def getTotalNodes(self):
         return len(self.intervalNodes)
 
+    def hasNodes(self):
+        return len(self.intervalNodes) > 0
+
     def getIntervalNodes(self):
         return self.intervalNodes
 
