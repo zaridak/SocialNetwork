@@ -5,7 +5,7 @@ from Interval import Interval
 
 print("Give N")
 # N = int(sys.stdin.readline())
-N = 2
+N = 4
 
 allNodes = list()  # holds all the lines from txt as object(sourid,targetid,timestamp)
 minTimeStamp: int
@@ -20,17 +20,9 @@ allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile()  # fetching allNodes
 
 print("Exw sunolika " + str(len(allNodes)) + " nodes")
 
-# maxStamp = int(allNodes[0].getTimeStamp())
-# minStamp = int(allNodes[0].getTimeStamp())
-# for run in allNodes:
-#     if int(run.getTimeStamp()) > maxStamp:
-#         maxStamp = int(run.getTimeStamp())
-#     if int(run.getTimeStamp()) < minStamp:
-#         minStamp = int(run.getTimeStamp())
-
 dif = (maxTimeStamp - minTimeStamp)
 step = dif / N
-# todo find the correct interval limits
+
 print("Min: " + str(minTimeStamp) + " || Max: " + str(maxTimeStamp))  # + "\nsec dif = " + str(dif))
 print("Splitting to " + str(N) + " intervals step: " + str(step))
 
@@ -54,27 +46,23 @@ for tmpNode in allNodes:
                 tmpInter.getMaxBound()):
             tmpInter.addNode(tmpNode)
             tmpNode.setInterval(tmpInter)
-print("TUPWNW NODES @ INTERNALS ")
+print("Printing NODES @ INTERNALS ")
 
+#todo print them in files, with title 3Nodes+iofN.txt
 for tmp in allIntervals:
     tmp.intervalPrint()
     print("Exw " + str(tmp.getTotalNodes()) + " nodes ta:")
-    for aek in tmp.getIntervalNodes():
-        print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
+#     for aek in tmp.getIntervalNodes():
+#         print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
 
-# for tmp in allNodes:
-#     tmp.toString()
-#     print("Eimai sto ",end=" ")
-#     tmp.getInterval().toString()
-
-G = nx.grid_2d_graph(5, 5)  # 5x5 grid
+#G = nx.grid_2d_graph(5, 5)  # 5x5 grid
 
 # print the adjacency list
 
 # nx.draw(H)
 # plt.show()
 
-G=nx.Graph()
+#G=nx.Graph()
 # G.add_node("a")
 # G.add_nodes_from(["d","b","c"])
 # G.add_node("aek")
@@ -96,24 +84,21 @@ G=nx.Graph()
 #    print(line)
 
 #iterate all intervals and create Graphs
+j=0
 for i in range(0,1):
     for tmpInt in allIntervals: # for each interval
+        G = nx.Graph()
         if tmpInt.hasNodes() is True:
+            j+=1
             for tmpNode in tmpInt.getIntervalNodes():
                 G.add_edge(tmpNode.getSourceID(),tmpNode.getTargetID())
+            nx.draw(G,with_labels = True)
+            plt.savefig("GraphPics/3pic_"+str(j)+".png")
+            plt.close()
+            # print(G.nodes())
+            # print(G.edges())
 
-
-
-
-nx.draw(G)
-plt.savefig("simple_path.png") # save as png
-
-print(G.nodes())
+# nx.draw(G)
+# plt.savefig("simple_path.png") # save as png
+# print(G.nodes())
 # print(G.edges())
-
-G.remove_edges_from(G.edges())
-G.add_edge("9","8")
-G.add_edge("1","1")
-print(G.edges())
-nx.draw(G)
-plt.savefig("simple_path2.png") # save as png
