@@ -31,7 +31,7 @@ class Interval:
         print("["+str(self.minValue)+", "+str(self.maxValue)+"]")
 
     def getMinMax(self):
-        return str(self.minValue)+", "+str(self.maxValue)
+        return "Interval: "+str(self.minValue)+", "+str(self.maxValue)+"\n"
 
     def getMinBound(self):
         return self.minValue
