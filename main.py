@@ -1,6 +1,9 @@
+import matplotlib
+import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
 import myParser as inputFile
+import matplotlib.pyplot as dia
 from Interval import Interval
 from functions import *
 
@@ -97,5 +100,19 @@ for i in range(0,1):
             plt.savefig("GraphPics/3pic_"+str(j)+".png")
             plt.close()
 
+# instal matplotlib
+# python -m pip install -U pip
+# python -m pip install -U matplotlib
+
 lol = nx.degree_centrality(G)
 print(lol)
+print(lol.keys())
+print(lol.values())
+
+##################################
+x = np.linspace(0.1, 2 * np.pi, 41)
+y = np.exp(np.sin(x))
+
+dia.stem(x, y, use_line_collection=True)
+dia.show()
+dia.savefig("test.png")
