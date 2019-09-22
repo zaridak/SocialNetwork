@@ -62,30 +62,6 @@ for tmp in allIntervals:
         print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
 q3file.close()
 
-# G = nx.grid_2d_graph(5, 5)  # 5x5 grid
-# print the adjacency list
-# nx.draw(H)
-# plt.show()
-# G=nx.Graph()
-# G.add_node("a")
-# G.add_nodes_from(["d","b","c"])
-# G.add_node("aek")
-# G.add_node("original")
-# edge = ("d", "e")
-# G.add_edge(*edge)
-# edge = ("a", "b")
-# G.add_edge(*edge)
-# G.add_edge(*edge)
-# edge= ("aek","original")
-# G.add_edge(*edge)
-# edge = ("c","aek")
-# G.add_edge(*edge)
-# print("Nodes of graph: ")
-# print(G.nodes())
-# print("Edges of graph: ")
-# print(G.edges())
-# for line in nx.generate_adjlist(G):
-#    print(line)
 
 # iterate all intervals and create Graphs for Q 3
 j=0
@@ -100,19 +76,64 @@ for i in range(0,1):
             plt.savefig("GraphPics/3pic_"+str(j)+".png")
             plt.close()
 
-# instal matplotlib
-# python -m pip install -U pip
-# python -m pip install -U matplotlib
-
 lol = nx.degree_centrality(G)
-print(lol)
+wtf = nx.generate_adjlist(G,',')
+#print("lol = "+str(lol))
 print(lol.keys())
 print(lol.values())
 
-##################################
-x = np.linspace(0.1, 2 * np.pi, 41)
-y = np.exp(np.sin(x))
+# for line in wtf:
+#     print(line)
 
-dia.stem(x, y, use_line_collection=True)
+# data to plot
+n_groups = 1
+means_frank = (13, 0.375)
+means_guido = (1, 0.25)
+means_3 = (17, 0.125)
+# create plot
+fig, ax = plt.subplots()
+index = np.arange(n_groups)
+bar_width = 1
+opacity = 0.8
+
+rects1 = plt.bar(index, means_frank, bar_width,
+alpha=opacity,
+color='gold',
+label='Key')
+
+rects2 = plt.bar(index + bar_width, means_guido, bar_width,
+alpha=opacity,
+color='black',
+label='Value')
+
+rects2 = plt.bar(index + 2*bar_width, means_3, bar_width,
+alpha=opacity,
+color='green',
+label='Value')
+
+rects2 = plt.bar(index + 3*bar_width, (48, 0.125), bar_width,
+alpha=opacity,
+color='grey')
+
+rects2 = plt.bar(index + 4*bar_width, (2, 0.125), bar_width,
+alpha=opacity,
+color='yellow')
+
+rects2 = plt.bar(index + 5*bar_width, (3, 0.125), bar_width,
+alpha=opacity,
+color='purple')
+
+rects2 = plt.bar(index + 6*bar_width, (3, 0.125), bar_width,
+alpha=opacity,
+color='gold')
+
+dia.xlabel('Node')
+dia.ylabel('Centrality')
+dia.title('Degree Centrality')
+
+dia.xticks(index, ('ο'))
+
+dia.legend()
+
+# dia.tight_layout()
 dia.show()
-dia.savefig("test.png")
