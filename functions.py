@@ -6,6 +6,8 @@ def createFoldersIfNotExist():
         os.makedirs('GraphPics')
     if not os.path.exists('Documents'):
         os.makedirs('Documents')
+    if not os.path.exists('Centrality_Diagrams'):
+        os.makedirs('Centrality_Diagrams')
 
 
 def deleteFilesIfExist():
