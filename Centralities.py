@@ -77,7 +77,7 @@ def Centrality(interval, G, title):
     pic += 1
     dia.savefig("Centrality_Diagrams/"+label+str(pic))
 
-    dia.show()
+    # dia.show()
 
 
 # def DegreeCentrality(interval, G):

@@ -1,5 +1,5 @@
 import os.path
-
+import shutil
 
 def createFoldersIfNotExist():
     if not os.path.exists('GraphPics'):
@@ -13,6 +13,10 @@ def createFoldersIfNotExist():
 def deleteFilesIfExist():
     if os.path.exists("Documents/Q3Nodes.txt"):
         os.remove("Documents/Q3Nodes.txt")
+    if os.path.exists("Centrality_Diagrams/"):
+        shutil.rmtree('Centrality_Diagrams/')
+        os.makedirs('Centrality_Diagrams')
+
 
 # n_groups = 1
 # means_frank = (13, 0.375)
