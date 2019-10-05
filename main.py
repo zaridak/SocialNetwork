@@ -71,7 +71,7 @@ allNxGraphs = dict()  # maybe different than N, if G empty
 j=0
 for i in range(0,1):
     for tmpInt in allIntervals: # for each interval
-        G = nx.Graph()
+        G = nx.DiGraph()
         if tmpInt.hasNodes() is True:  # null check
             j+=1
             for tmpNode in tmpInt.getIntervalNodes():
@@ -87,3 +87,14 @@ for i in range(0,1):
 
 for k, v in allNxGraphs.items():
     CalculateCentrality(k, v)
+
+
+def get_common_nodes(G,H):
+    R=G.copy()
+    R.remove_nodes_from(n for n in G if n not in H)
+    return R.nodes
+
+def get_edges_for_common_nodes(G, n):
+    R=G.copy()
+    R.remove_edges_from(edge for edge in G.edges if edge[0] not in n or edge[1] not in n) 
+    return R.edges

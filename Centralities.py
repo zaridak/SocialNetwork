@@ -16,6 +16,7 @@ def CalculateCentrality(interval, G):
     Centrality(interval, G, "BetweennesCentrality")
     Centrality(interval, G, "EigenvectorCentrality")
     Centrality(interval, G, "KatzCentrality")
+    Centrality(interval, G, "InDegreeCentrality")
 
 
 def Centrality(interval, G, title):
@@ -36,6 +37,10 @@ def Centrality(interval, G, title):
     elif title == "KatzCentrality":
         dc = collections.OrderedDict(sorted(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1]))
         label = "Katz Centrality"
+    elif title == "InDegreeCentrality":
+        dc = collections.OrderedDict(sorted(nx.in_degree_centrality(G).items(), key=lambda kv: kv[1]))
+        label= "In-Degree Centrality"
+
 
     i = 0
     tmp = next(iter(dc.values()))  # the first value of the centralities
