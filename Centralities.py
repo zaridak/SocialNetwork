@@ -73,7 +73,7 @@ def Centrality(interval, G, title):
 
     dia.xlabel('Centrality')
     dia.ylabel('Percentage')
-    dia.title(interval + "\n" + label)
+    dia.title(interval.getMinMax() + "\n" + label)
 
     dia.legend()
     dia.tight_layout()
