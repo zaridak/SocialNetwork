@@ -20,7 +20,7 @@ deleteFilesIfExist()
 allNodes = list()  # holds all the lines from txt as object(sourid,targetid,timestamp)
 minTimeStamp: int
 maxTimeStamp: int
-allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile()  # fetching allNodes, Min/Max timeStamp from file
+allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile("tinyDem.txt")  # fetching allNodes, Min/Max timeStamp from file
 
 print("Totally " + str(len(allNodes)) + " nodes")
 dif = (maxTimeStamp - minTimeStamp)

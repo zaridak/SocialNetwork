@@ -1,11 +1,11 @@
 from Node import Node
 import sys
 
-def readFile():
+def readFile(filename):
     maxTimeStamp: int = 0
     minTimeStamp: int = 0
     try:
-        nodes = open("tinyDem.txt", "r")
+        nodes = open(filename, "r")
         #nodes = open("DEMOsx-stackoverflow.txt", "r") #10.000 entries
         #nodes = open("sx-stackoverflow-100k.txt", "r")  # 100.000 entries
 
