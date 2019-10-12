@@ -5,18 +5,18 @@ import networkx as nx
 
 pic = 0
 
-def CalculateCentrality(interval, G):
+def CalculateCentrality(interval, DirectedGraph, UndirectedGraph):
     # DegreeCentrality(interval, G)
     # ClosenessCentrality(interval, G)
     # BetweennesCentrality(interval, G)
     # EigenvectorCentrality(interval, G)
     # KatzCentrality(interval, G)
-    Centrality(interval, G, "DegreeCentrality")
-    Centrality(interval, G, "ClosenessCentrality")
-    Centrality(interval, G, "BetweennesCentrality")
-    Centrality(interval, G, "EigenvectorCentrality")
-    Centrality(interval, G, "KatzCentrality")
-    Centrality(interval, G, "InDegreeCentrality")
+    Centrality(interval, UndirectedGraph, "DegreeCentrality")
+    Centrality(interval, UndirectedGraph, "ClosenessCentrality")
+    Centrality(interval, UndirectedGraph, "BetweennesCentrality")
+    Centrality(interval, UndirectedGraph, "EigenvectorCentrality")
+    Centrality(interval, UndirectedGraph, "KatzCentrality")
+    Centrality(interval, DirectedGraph, "InDegreeCentrality")
 
 
 def Centrality(interval, G, title):

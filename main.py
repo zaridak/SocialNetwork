@@ -12,7 +12,7 @@ from Centralities import CalculateCentrality
 
 print("Give N")
 # N = int(sys.stdin.readline())
-N = 10
+N = 20
 
 createFoldersIfNotExist()
 deleteFilesIfExist()
@@ -51,19 +51,21 @@ for tmpNode in allNodes:
             tmpNode.setInterval(tmpInter)
 print("Printing NODES @ INTERNALS ")
 
-q3file = 0
-#  Writing nodes of Q 3 to txt file
-for tmp in allIntervals:
-    # tmp.intervalPrint()
-    print(tmp.getMinMax())
-    fileName = "Documents/Q3Nodes.txt"
-    q3file = open(fileName, 'a')
-    q3file.write(tmp.getMinMax())
-    print("I have " + str(tmp.getTotalNodes()) + " nodes:")
-    for aek in tmp.getIntervalNodes():
-        q3file.write(str(aek.getSourceID())+ " "+str(aek.getTargetID())+"\n")
-        # print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
-q3file.close()
+def write_Q3_file():
+    q3file = 0
+    #  Writing nodes of Q 3 to txt file
+    for tmp in allIntervals:
+        # tmp.intervalPrint()
+        print(tmp.getMinMax())
+        fileName = "Documents/Q3Nodes.txt"
+        q3file = open(fileName, 'a')
+        q3file.write(tmp.getMinMax())
+        print("I have " + str(tmp.getTotalNodes()) + " nodes:")
+        for aek in tmp.getIntervalNodes():
+            q3file.write(str(aek.getSourceID())+ " "+str(aek.getTargetID())+"\n")
+            # print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
+    q3file.close()
+write_Q3_file()
 
 
 # iterate all intervals and create Graphs for Q 3
@@ -72,27 +74,29 @@ allGraphsList=[]
 #create graphs for each interval
 j=0
 for tmpInt in allIntervals: # for each interval
-    G = nx.DiGraph()
+    Gd = nx.DiGraph()
+    Gu = nx.Graph()
     if tmpInt.hasNodes() is True:  # null check
         j+=1
         for tmpNode in tmpInt.getIntervalNodes():
-            G.add_edge(tmpNode.getSourceID(),tmpNode.getTargetID())
+            Gd.add_edge(tmpNode.getSourceID(),tmpNode.getTargetID())
+            Gu.add_edge(tmpNode.getSourceID(),tmpNode.getTargetID())
         allGraphsList.append({
             "interval":tmpInt,
-            "graph":G
+            "Dgraph":Gd,
+            "Ugraph":Gu
         })
 
-for g in allGraphsList:
-    G=g['graph']
-    nx.draw(G,with_labels = True)
-    plt.savefig("GraphPics/3pic_"+str(j)+".png")
-    plt.close()
+def draw_graphs():
+    for g in allGraphsList:
+        G=g['graph']
+        nx.draw(G,with_labels = True)
+        plt.savefig("GraphPics/3pic_"+str(j)+".png")
+        plt.close()
+draw_graphs()
 
-# lol = nx.degree_centrality(G)
-# wtf = nx.generate_adjlist(G,',')
-
 for g in allGraphsList:
-    CalculateCentrality(g['interval'], g['graph'])
+    CalculateCentrality(g['interval'], g['Dgraph'],g['Ugraph'])
 
 def get_common_nodes(G,H):
     R=G.copy()
@@ -106,9 +110,9 @@ def get_edges_for_common_nodes(G, n):
 
 for idx in range(len(allGraphsList)-1):
     interval0=allGraphsList[idx]['interval']
-    graph0=allGraphsList[idx]['graph']
+    graph0=allGraphsList[idx]['Ugraph']
     interval1=allGraphsList[idx+1]['interval']
-    graph1=allGraphsList[idx+1]['graph']
+    graph1=allGraphsList[idx+1]['Ugraph']
     print("Working on intervals: ")
     interval0.intervalPrint()
     interval1.intervalPrint()
