@@ -118,20 +118,43 @@ for idx in range(len(allGraphsList)-1):
     interval1.intervalPrint()
     print("total interval: ", interval0.minValue, " - ", interval1.maxValue)
     commonNodes = get_common_nodes(graph0,graph1)
-    graph0edges = get_edges_for_common_nodes(graph0,commonNodes)
-    graph1edges = get_edges_for_common_nodes(graph1,commonNodes)
+    graph0WithCommonNodes = get_graph_for_common_nodes(graph0,commonNodes)
+    graph0edges=graph0WithCommonNodes.edges
+    graph1WithCommonNodes = get_graph_for_common_nodes(graph1,commonNodes)
+    graph1edges=graph1WithCommonNodes.edges
     print("common nodes: ", commonNodes)
     print("graph0 edges: ", graph0edges)
     print("graph1 edges: ", graph1edges)
 
+    #i.  [Graph Distance]
+    graph0Distance = nx.all_pairs_shortest_path_length(graph0WithCommonNodes)
+    graph1Distance = nx.all_pairs_shortest_path_length(graph1WithCommonNodes)
 
+    #ii.  [Common Neighbors] όπου  το σύνολο των γειτόνων του κόμβου .
+    # currently takes a long time to calculate :/
+    #graph0CommonNeigbors = get_common_neighbors(graph0WithCommonNodes)
+    #graph1CommonNeigbors = get_common_neighbors(graph1WithCommonNodes)
+
+    #iii.  [Jaccard’s Coefficient]
+    #iv.  [Adamic / Adar]
+    #v.  [Preferential Attachment]
+
+
+def get_common_neighbors(G):
+    commonNeighborsTable=[]
+    for u in G.nodes:
+        uCommonNeighbors=[]
+        for v in G.nodes:
+            commonNeighbors = nx.common_neighbors(G, u, v)
+        commonNeighborsTable.append(uCommonNeighbors)
+    return commonNeighborsTable
 
 def get_common_nodes(G,H):
     R=G.copy()
     R.remove_nodes_from(n for n in G if n not in H)
     return R.nodes
 
-def get_edges_for_common_nodes(G, n):
+def get_graph_for_common_nodes(G, n):
     R=G.copy()
     R.remove_edges_from(edge for edge in G.edges if edge[0] not in n or edge[1] not in n) 
-    return R.edges
+    return R
