@@ -89,7 +89,7 @@ for tmpInt in allIntervals: # for each interval
 
 def draw_graphs():
     for g in allGraphsList:
-        G=g['graph']
+        G=g['Ugraph']
         nx.draw(G,with_labels = True)
         plt.savefig("GraphPics/3pic_"+str(j)+".png")
         plt.close()
