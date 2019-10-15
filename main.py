@@ -20,7 +20,7 @@ deleteFilesIfExist()
 allNodes = list()  # holds all the lines from txt as object(sourid,targetid,timestamp)
 minTimeStamp: int
 maxTimeStamp: int
-allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile("sx-stackoverflow-100k_clean.txt")  # fetching allNodes, Min/Max timeStamp from file
+allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile("sx-stackoverflow-10k.txt")  # fetching allNodes, Min/Max timeStamp from file
 
 print("Totally " + str(len(allNodes)) + " nodes")
 dif = (maxTimeStamp - minTimeStamp)
@@ -65,7 +65,7 @@ def write_Q3_file():
             q3file.write(str(aek.getSourceID())+ " "+str(aek.getTargetID())+"\n")
             # print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
     q3file.close()
-write_Q3_file()
+#write_Q3_file()
 
 
 # iterate all intervals and create Graphs for Q 3
@@ -93,20 +93,32 @@ def draw_graphs():
         nx.draw(G,with_labels = True)
         plt.savefig("GraphPics/3pic_"+str(j)+".png")
         plt.close()
-draw_graphs()
+#draw_graphs()
 
-for g in allGraphsList:
-    CalculateCentrality(g['interval'], g['Dgraph'],g['Ugraph'])
+def draw_centrality_graphs():
+    for g in allGraphsList:
+        CalculateCentrality(g['interval'], g['Dgraph'],g['Ugraph'])
+#draw_centrality_graphs()
+
+def get_common_neighbors(G):
+    commonNeighborsTable=[]
+    for u in G.nodes:
+        uCommonNeighbors=[]
+        for v in G.nodes:
+            commonNeighbors = list(nx.common_neighbors(G, u, v))
+            uCommonNeighbors.append(commonNeighbors)
+        commonNeighborsTable.append(uCommonNeighbors)
+    return commonNeighborsTable
 
 def get_common_nodes(G,H):
     R=G.copy()
     R.remove_nodes_from(n for n in G if n not in H)
     return R.nodes
 
-def get_edges_for_common_nodes(G, n):
+def get_graph_for_common_nodes(G, n):
     R=G.copy()
     R.remove_edges_from(edge for edge in G.edges if edge[0] not in n or edge[1] not in n) 
-    return R.edges
+    return R
 
 for idx in range(len(allGraphsList)-1):
     interval0=allGraphsList[idx]['interval']
@@ -132,29 +144,18 @@ for idx in range(len(allGraphsList)-1):
 
     #ii.  [Common Neighbors] όπου  το σύνολο των γειτόνων του κόμβου .
     # currently takes a long time to calculate :/
-    #graph0CommonNeigbors = get_common_neighbors(graph0WithCommonNodes)
-    #graph1CommonNeigbors = get_common_neighbors(graph1WithCommonNodes)
+    graph0CommonNeigbors = get_common_neighbors(graph0WithCommonNodes)
+    graph1CommonNeigbors = get_common_neighbors(graph1WithCommonNodes)
 
     #iii.  [Jaccard’s Coefficient]
+    graph0JaccardCoefficientIndices = nx.jaccard_coefficient(graph0WithCommonNodes)
+    graph1JaccardCoefficientIndices = nx.jaccard_coefficient(graph1WithCommonNodes)
+    
     #iv.  [Adamic / Adar]
+    graph0AdamicAdarIndices = nx.adamic_adar_index(graph0WithCommonNodes)
+    graph1AdamicAdarIndices = nx.adamic_adar_index(graph1WithCommonNodes)
+
     #v.  [Preferential Attachment]
+    graph0PreferentialAttachment = nx.preferential_attachment(graph0WithCommonNodes)
+    graph1PreferentialAttachment = nx.preferential_attachment(graph1WithCommonNodes)
 
-
-def get_common_neighbors(G):
-    commonNeighborsTable=[]
-    for u in G.nodes:
-        uCommonNeighbors=[]
-        for v in G.nodes:
-            commonNeighbors = nx.common_neighbors(G, u, v)
-        commonNeighborsTable.append(uCommonNeighbors)
-    return commonNeighborsTable
-
-def get_common_nodes(G,H):
-    R=G.copy()
-    R.remove_nodes_from(n for n in G if n not in H)
-    return R.nodes
-
-def get_graph_for_common_nodes(G, n):
-    R=G.copy()
-    R.remove_edges_from(edge for edge in G.edges if edge[0] not in n or edge[1] not in n) 
-    return R

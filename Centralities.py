@@ -32,7 +32,7 @@ def Centrality(interval, G, title):
         dc = collections.OrderedDict(sorted(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1]))
         label = "Betweennes Centrality"
     elif title == "EigenvectorCentrality":
-        dc = collections.OrderedDict(sorted(nx.eigenvector_centrality(G,1000).items(), key=lambda kv: kv[1]))
+        dc = collections.OrderedDict(sorted(nx.eigenvector_centrality_numpy(G,1000).items(), key=lambda kv: kv[1]))
         label = "Eigenvector Centrality"
     elif title == "KatzCentrality":
         dc = collections.OrderedDict(sorted(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1]))
