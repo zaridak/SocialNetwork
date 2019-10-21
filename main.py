@@ -1,5 +1,6 @@
 import matplotlib
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 import networkx as nx
 import myParser as inputFile
@@ -10,9 +11,23 @@ from Centralities import CalculateCentrality
 
 # self.data = np.array(rows, dtype=object)
 
+def ask_input(Label):
+    print(label)
+    return int(sys.stdin.readline())
 print("Give N")
-# N = int(sys.stdin.readline())
+# N = ask_input("Enter Number of Time Intervals")
+# P_GD = ask_input("Enter PGD%")
+# P_CN = ask_input("Enter PCN%")
+# P_JC = ask_input("Enter PJC%")
+# P_A = ask_input("Enter PA%")
+# P_PA= ask_input("Enter PPA%")
+
 N = 20
+P_GD = 20
+P_CN = 20
+P_JC = 20
+P_A = 20
+P_PA = 20
 
 createFoldersIfNotExist()
 deleteFilesIfExist()
@@ -100,16 +115,6 @@ def draw_centrality_graphs():
         CalculateCentrality(g['interval'], g['Dgraph'],g['Ugraph'])
 #draw_centrality_graphs()
 
-def get_common_neighbors(G):
-    commonNeighborsTable=[]
-    for u in G.nodes:
-        uCommonNeighbors=[]
-        for v in G.nodes:
-            commonNeighbors = list(nx.common_neighbors(G, u, v))
-            uCommonNeighbors.append(commonNeighbors)
-        commonNeighborsTable.append(uCommonNeighbors)
-    return commonNeighborsTable
-
 def get_common_nodes(G,H):
     R=G.copy()
     R.remove_nodes_from(n for n in G if n not in H)
@@ -119,6 +124,53 @@ def get_graph_for_common_nodes(G, n):
     R=G.copy()
     R.remove_edges_from(edge for edge in G.edges if edge[0] not in n or edge[1] not in n) 
     return R
+
+def get_CN(G):
+    CN=[]
+    for u in G.nodes:
+        for v in G.nodes:
+            if u != v:
+                commonNeighbors = list(nx.common_neighbors(G, u, v))
+                CN.append((u,v,len(commonNeighbors)))
+    return CN
+def get_GD(G):
+    GD=[]
+    for t in nx.all_pairs_shortest_path_length(G):
+        u=t[0]
+        for v in t[1]:
+            if v!=u:
+                GD.append((u,v,-t[1][v]))
+    return GD
+
+def get_JC(G):
+    JC=[]
+    for t in nx.jaccard_coefficient(G):
+        if t[0]!=t[1]:
+            JC.append(t)
+    return JC
+
+def get_A(G):
+    A=[]
+    for t in nx.adamic_adar_index(G):
+        if t[0]!=t[1]:
+            A.append(t)
+    return A
+
+def get_PA(G):
+    PA=[]
+    for t in nx.preferential_attachment(G):
+        if t[0] != t[1]:
+            PA.append(t)
+    return PA
+
+def get_success_percent(M0, G1):
+    correct = 0
+    total = len(M0)
+    for p in M0:
+        if(G1.has_edge(p[0],p[1])):
+            correct+=1
+    return correct/total
+
 
 for idx in range(len(allGraphsList)-1):
     interval0=allGraphsList[idx]['interval']
@@ -139,23 +191,43 @@ for idx in range(len(allGraphsList)-1):
     print("graph1 edges: ", graph1edges)
 
     #i.  [Graph Distance]
-    graph0Distance = nx.all_pairs_shortest_path_length(graph0WithCommonNodes)
-    graph1Distance = nx.all_pairs_shortest_path_length(graph1WithCommonNodes)
+    S_GD_0 = get_GD(graph0WithCommonNodes)
+    S_GD_1 = get_GD(graph1WithCommonNodes)
 
     #ii.  [Common Neighbors] όπου  το σύνολο των γειτόνων του κόμβου .
     # currently takes a long time to calculate :/
-    graph0CommonNeigbors = get_common_neighbors(graph0WithCommonNodes)
-    graph1CommonNeigbors = get_common_neighbors(graph1WithCommonNodes)
+    S_CN_0 = get_CN(graph0WithCommonNodes)
+    S_CN_1 = get_CN(graph1WithCommonNodes)
 
     #iii.  [Jaccard’s Coefficient]
-    graph0JaccardCoefficientIndices = nx.jaccard_coefficient(graph0WithCommonNodes)
-    graph1JaccardCoefficientIndices = nx.jaccard_coefficient(graph1WithCommonNodes)
+    S_JC_0 = get_JC(graph0WithCommonNodes)
+    S_JC_1 = get_JC(graph1WithCommonNodes)
     
     #iv.  [Adamic / Adar]
-    graph0AdamicAdarIndices = nx.adamic_adar_index(graph0WithCommonNodes)
-    graph1AdamicAdarIndices = nx.adamic_adar_index(graph1WithCommonNodes)
+    S_A_0 = get_A(graph0WithCommonNodes)
+    S_A_1 = get_A(graph1WithCommonNodes)
 
     #v.  [Preferential Attachment]
-    graph0PreferentialAttachment = nx.preferential_attachment(graph0WithCommonNodes)
-    graph1PreferentialAttachment = nx.preferential_attachment(graph1WithCommonNodes)
+    S_PA_0 = get_PA(graph0WithCommonNodes)
+    S_PA_1 = get_PA(graph1WithCommonNodes)
+
+    p_GD_0 = int(math.ceil(P_GD*len(S_GD_0)/100))
+    p_CN_0 = int(math.ceil(P_CN*len(S_CN_0)/100))
+    p_JC_0 = int(math.ceil(P_JC*len(S_JC_0)/100))
+    p_A_0 = int(math.ceil(P_A*len(S_A_0)/100))
+    p_PA_0 = int(math.ceil(P_PA*len(S_PA_0)/100))
+
+    top_GD_0 = sorted(S_GD_0, key=lambda x: x[2], reverse=True)[:p_GD_0]
+    top_CN_0 = sorted(S_CN_0, key=lambda x: x[2], reverse=True)[:p_CN_0]
+    top_JC_0 = sorted(S_JC_0, key=lambda x: x[2], reverse=True)[:p_JC_0]
+    top_A_0 = sorted(S_A_0, key=lambda x: x[2], reverse=True)[:p_A_0]
+    top_PA_0 = sorted(S_PA_0, key=lambda x: x[2], reverse=True)[:p_PA_0]
+
+    success_rate_GD=get_success_percent(top_GD_0, graph1WithCommonNodes)
+    success_rate_CN=get_success_percent(top_CN_0, graph1WithCommonNodes)
+    success_rate_JC=get_success_percent(top_JC_0, graph1WithCommonNodes)
+    success_rate_A=get_success_percent(top_A_0, graph1WithCommonNodes)
+    success_rate_PA=get_success_percent(top_PA_0, graph1WithCommonNodes)
+
+    print("break")
 
