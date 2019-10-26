@@ -17,6 +17,7 @@ def CalculateCentrality(interval, DirectedGraph, UndirectedGraph):
     Centrality(interval, UndirectedGraph, "EigenvectorCentrality")
     Centrality(interval, UndirectedGraph, "KatzCentrality")
     Centrality(interval, DirectedGraph, "InDegreeCentrality")
+    Centrality(interval, DirectedGraph, "OutDegreeCentrality")
 
 
 def Centrality(interval, G, title):
@@ -40,6 +41,9 @@ def Centrality(interval, G, title):
     elif title == "InDegreeCentrality":
         dc = collections.OrderedDict(sorted(nx.in_degree_centrality(G).items(), key=lambda kv: kv[1]))
         label= "In-Degree Centrality"
+    elif title == "OutDegreeCentrality":
+        dc = collections.OrderedDict(sorted(nx.out_degree_centrality(G).items(), key=lambda kv: kv[1]))
+        label= "Out-Degree Centrality"
 
 
     i = 0
