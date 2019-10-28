@@ -8,9 +8,7 @@ import matplotlib.pyplot as dia
 from Interval import Interval
 from functions import *
 from Centralities import CalculateCentrality
-
 # self.data = np.array(rows, dtype=object)
-
 def ask_input(Label):
     print(label)
     return int(sys.stdin.readline())
@@ -22,7 +20,7 @@ print("Give N")
 # P_A = ask_input("Enter PA%")
 # P_PA= ask_input("Enter PPA%")
 
-N = 4
+N = 10
 P_GD = 20
 P_CN = 20
 P_JC = 20
@@ -35,7 +33,7 @@ deleteFilesIfExist()
 allNodes = list()  # holds all the lines from txt as object(sourid,targetid,timestamp)
 minTimeStamp: int
 maxTimeStamp: int
-allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile("sx-stackoverflow-10k.txt")  # fetching allNodes, Min/Max timeStamp from file
+allNodes, minTimeStamp, maxTimeStamp = inputFile.readFile("sx-stackoverflow-100k_last.txt")  # fetching allNodes, Min/Max timeStamp from file
 
 print("Totally " + str(len(allNodes)) + " nodes")
 dif = (maxTimeStamp - minTimeStamp)

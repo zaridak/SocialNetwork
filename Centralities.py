@@ -24,63 +24,42 @@ def Centrality(interval, G, title):
     dc = 0
     label = ""
     if title == "DegreeCentrality":
-        dc = collections.OrderedDict(sorted(nx.degree_centrality(G).items(), key=lambda kv: kv[1]))
+        dc = list(nx.degree_centrality(G).items(), key=lambda kv: kv[1])
         label = "Degree Centrality"
     elif title == "ClosenessCentrality":
-        dc = collections.OrderedDict(sorted(nx.closeness_centrality(G).items(), key=lambda kv: kv[1]))
+        dc = list(nx.closeness_centrality(G).items(), key=lambda kv: kv[1])
         label = "Closeness Centrality"
     elif title == "BetweennesCentrality":
-        dc = collections.OrderedDict(sorted(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1]))
+        dc = list(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1])
         label = "Betweennes Centrality"
     elif title == "EigenvectorCentrality":
-        dc = collections.OrderedDict(sorted(nx.eigenvector_centrality_numpy(G,1000).items(), key=lambda kv: kv[1]))
+        dc = list(nx.eigenvector_centrality_numpy(G,1000).items(), key=lambda kv: kv[1])
         label = "Eigenvector Centrality"
     elif title == "KatzCentrality":
-        dc = collections.OrderedDict(sorted(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1]))
+        dc = list(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1])
         label = "Katz Centrality"
     elif title == "InDegreeCentrality":
-        dc = collections.OrderedDict(sorted(nx.in_degree_centrality(G).items(), key=lambda kv: kv[1]))
+        dc = list(nx.in_degree_centrality(G).items(), key=lambda kv: kv[1])
         label= "In-Degree Centrality"
     elif title == "OutDegreeCentrality":
-        dc = collections.OrderedDict(sorted(nx.out_degree_centrality(G).items(), key=lambda kv: kv[1]))
+        dc = list(nx.out_degree_centrality(G).items(), key=lambda kv: kv[1])
         label= "Out-Degree Centrality"
 
 
     i = 0
-    tmp = next(iter(dc.values()))  # the first value of the centralities
-    dictToDia = dict()
-    leng = 0
-    for value in dc.values():
-        leng += 1
-        if tmp == value:
-            i += 1
-            # if is last element
-            if leng == len(dc):
-                dictToDia.__setitem__(tmp, i / len(dc))
-        if tmp != value:
-            dictToDia.__setitem__(tmp, i / len(dc))
-            i = 1
-            tmp = value
-            if leng == len(dc):
-                dictToDia.__setitem__(tmp, i / len(dc))
-
-    xlist = []
-    ylist = []
-    for k, v in dictToDia.items():
-        xlist.append(k)
-        ylist.append(v)
-
-    # print(xlist)
-    # proti agili x, deuterh y
-    # dia.plot([1, 3], [2, 5], alpha=0.8, color='black', label='Key Value')
+    vals={} 
+    for v in b:
+        if v[1] in vals:
+            vals[v[1]]+=1
+        else:
+            vals[v[1]]=1
+    xlist = list(vals.keys())
+    ylist = list(vals.values())
     dia.plot(xlist, ylist, alpha=0.8, color='gold', label='Key Value')
 
     dia.xlabel('Centrality')
     dia.ylabel('Percentage')
     dia.title(interval.getMinMax() + "\n" + label)
-
-    dia.legend()
-    dia.tight_layout()
 
     global pic
     pic += 1
@@ -90,7 +69,7 @@ def Centrality(interval, G, title):
 
 
 # def DegreeCentrality(interval, G):
-#     dc = collections.OrderedDict(sorted(nx.degree_centrality(G).items(), key=lambda kv: kv[1]))
+#     dc listsorted(nx.degree_centrality(G).items(), key=lambda kv: kv[1])
 #     i = 0
 #     tmp = next(iter(dc.values())) # the first value of the centralities
 #     dictToDia = dict()
@@ -141,7 +120,7 @@ def Centrality(interval, G, title):
 #
 #
 # def ClosenessCentrality(interval, G):
-#     dc = collections.OrderedDict(sorted(nx.closeness_centrality(G).items(), key=lambda kv: kv[1]))
+#     dc listsorted(nx.closeness_centrality(G).items(), key=lambda kv: kv[1])
 #     i = 0
 #     tmp = next(iter(dc.values())) # the first value of the centralities
 #     dictToDia = dict()
@@ -192,7 +171,7 @@ def Centrality(interval, G, title):
 #
 #
 # def BetweennesCentrality(interval, G):
-#     dc = collections.OrderedDict(sorted(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1]))
+#     dc listsorted(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1])
 #     i = 0
 #     tmp = next(iter(dc.values()))  # the first value of the centralities
 #     dictToDia = dict()
@@ -247,7 +226,7 @@ def Centrality(interval, G, title):
 #
 #
 # def EigenvectorCentrality(interval, G):
-#     dc = collections.OrderedDict(sorted(nx.eigenvector_centrality(G).items(), key=lambda kv: kv[1]))
+#     dc listsorted(nx.eigenvector_centrality(G).items(), key=lambda kv: kv[1])
 #     i = 0
 #     tmp = next(iter(dc.values()))  # the first value of the centralities
 #     dictToDia = dict()
@@ -301,7 +280,7 @@ def Centrality(interval, G, title):
 #
 # def KatzCentrality(interval, G):
 #
-#     dc = collections.OrderedDict(sorted(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1]))
+#     dc listsorted(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1])
 #     i = 0
 #     tmp = next(iter(dc.values()))  # the first value of the centralities
 #     dictToDia = dict()
