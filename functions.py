@@ -10,6 +10,8 @@ def createFoldersIfNotExist():
         os.makedirs('Documents')
     if not os.path.exists('Centrality_Diagrams'):
         os.makedirs('Centrality_Diagrams')
+    if not os.path.exists('Similarity_Measures'):
+        os.makedirs('Similarity_Measures')
 
 
 def deleteFilesIfExist():
@@ -18,6 +20,9 @@ def deleteFilesIfExist():
     if os.path.exists("Centrality_Diagrams/"):
         shutil.rmtree('Centrality_Diagrams/')
         os.makedirs('Centrality_Diagrams')
+    if os.path.exists("Similarity_Measures/"):
+        shutil.rmtree('Similarity_Measures/')
+        os.makedirs('Similarity_Measures')
 
 
 
@@ -40,8 +45,8 @@ def draw_graphs(allGraphsList):
     j=1
     for g in allGraphsList:
         G=g['Ugraph']
-        nx.draw(G,with_labels = True)
-        plt.savefig("GraphPics/3pic_"+str(j)+".png")
+        nx.draw(G, node_size=30)
+        plt.savefig("GraphPics/3pic_"+str(j)+".png", dpi=1200)
         j+=1
         plt.close()
 
@@ -104,6 +109,44 @@ def get_success_percent(M0, G1):
         if(G1.has_edge(p[0],p[1])):
             correct+=1
     return correct/total
+
+def common_nodes_to_file(
+    idx, 
+    interval0, 
+    interval1, 
+    commonNodes, 
+    edges0, 
+    edges1):
+    fileName = "Similarity_Measures/CommonNodesAndEdges_"+str(idx)+".txt"
+    lines=[]
+    lines.append("j:" +str(idx))
+    lines.append("Interval " + str(idx) +": " + interval0.getMinMax())
+    lines.append("Interval " + str(idx+1) +": " + interval1.getMinMax())
+    lines.append("Common Nodes:")
+    lines.append("\n".join(commonNodes))
+    lines.append("Interval " + str(idx) +" Edges of common nodes:")
+    lines.append("\n".join([e[0]+"-"+e[1] for e in edges0]))
+    lines.append("Interval " + str(idx+1) +" Edges of common nodes:")
+    lines.append("\n".join([e[0]+"-"+e[1] for e in edges1]))
+    with open(fileName, 'a') as f:
+        f.writelines("\n".join(lines))
+        
+def similarity_measures_to_file(idx,measure,interval0,interval1,S_0,S_1,P,top,successRate):
+    fileName = "Similarity_Measures/"+measure+"_"+str(idx)+".txt"
+    lines=[]
+    lines.append(measure + " j:" +str(idx))
+    lines.append("Interval " + str(idx) +": " + interval0.getMinMax())
+    lines.append("Interval " + str(idx+1) +": " + interval1.getMinMax())
+    lines.append("P: " + str(P))
+    lines.append("Success Rate " + str(successRate))
+    lines.append("Interval " + str(idx) + " " + measure + "")
+    lines.append("\n".join([e[0]+"-"+e[1] + ": " + str(e[2]) for e in S_0]))
+    lines.append("Interval " + str(idx+1) + " " + measure + "")
+    lines.append("\n".join([e[0]+"-"+e[1] + ": " + str(e[2]) for e in S_1]))
+    lines.append("Top " + str(P) +" percent of measurements: ")
+    lines.append("\n".join([e[0]+"-"+e[1] + ": " + str(e[2]) for e in top]))
+    with open(fileName, 'a') as f:
+        f.writelines("\n".join(lines))
 
 
 # n_groups = 1

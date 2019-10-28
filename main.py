@@ -22,7 +22,7 @@ print("Give N")
 # P_A = ask_input("Enter PA%")
 # P_PA= ask_input("Enter PPA%")
 
-N = 20
+N = 4
 P_GD = 20
 P_CN = 20
 P_JC = 20
@@ -90,7 +90,7 @@ for tmpInt in allIntervals: # for each interval
 draw_graphs(allGraphsList)
 draw_centrality_graphs(allGraphsList)
 
-
+    
 for idx in range(len(allGraphsList)-1):
     interval0=allGraphsList[idx]['interval']
     graph0=allGraphsList[idx]['Ugraph']
@@ -130,23 +130,32 @@ for idx in range(len(allGraphsList)-1):
     S_PA_0 = get_PA(graph0WithCommonNodes)
     S_PA_1 = get_PA(graph1WithCommonNodes)
 
+    #number of values to take into consideration for each measure according to user input
     p_GD_0 = int(math.ceil(P_GD*len(S_GD_0)/100))
     p_CN_0 = int(math.ceil(P_CN*len(S_CN_0)/100))
     p_JC_0 = int(math.ceil(P_JC*len(S_JC_0)/100))
     p_A_0 = int(math.ceil(P_A*len(S_A_0)/100))
     p_PA_0 = int(math.ceil(P_PA*len(S_PA_0)/100))
 
+    #top n values for each measure
     top_GD_0 = sorted(S_GD_0, key=lambda x: x[2], reverse=True)[:p_GD_0]
     top_CN_0 = sorted(S_CN_0, key=lambda x: x[2], reverse=True)[:p_CN_0]
     top_JC_0 = sorted(S_JC_0, key=lambda x: x[2], reverse=True)[:p_JC_0]
     top_A_0 = sorted(S_A_0, key=lambda x: x[2], reverse=True)[:p_A_0]
     top_PA_0 = sorted(S_PA_0, key=lambda x: x[2], reverse=True)[:p_PA_0]
 
+    #success rates for each measure
     success_rate_GD=get_success_percent(top_GD_0, graph1WithCommonNodes)
     success_rate_CN=get_success_percent(top_CN_0, graph1WithCommonNodes)
     success_rate_JC=get_success_percent(top_JC_0, graph1WithCommonNodes)
     success_rate_A=get_success_percent(top_A_0, graph1WithCommonNodes)
     success_rate_PA=get_success_percent(top_PA_0, graph1WithCommonNodes)
 
+    #writing to file for easier analysis
+    similarity_measures_to_file(0,"GraphDistance",interval0,interval1,S_GD_0,S_GD_1,P_GD,top_GD_0,success_rate_GD)
+    similarity_measures_to_file(0,"CommonNeighbors",interval0,interval1,S_CN_0,S_CN_1,P_CN,top_CN_0,success_rate_CN)
+    similarity_measures_to_file(0,"JaccardCoefficient",interval0,interval1,S_JC_0,S_JC_1,P_JC,top_JC_0,success_rate_JC)
+    similarity_measures_to_file(0,"AdamicAdar",interval0,interval1,S_A_0,S_A_1,P_A,top_A_0,success_rate_A)
+    similarity_measures_to_file(0,"PreferentialAttachment",interval0,interval1,S_PA_0,S_PA_1,P_PA,top_PA_0,success_rate_PA)
     print("break")
 
