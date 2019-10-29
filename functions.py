@@ -3,6 +3,8 @@ import shutil
 import networkx as nx
 import matplotlib.pyplot as plt
 from Centralities import CalculateCentrality
+
+
 def createFoldersIfNotExist():
     if not os.path.exists('GraphPics'):
         os.makedirs('GraphPics')
@@ -25,7 +27,6 @@ def deleteFilesIfExist():
         os.makedirs('Similarity_Measures')
 
 
-
 def write_Q3_file(allIntervals):
     q3file = 0
     #  Writing nodes of Q 3 to txt file
@@ -41,6 +42,7 @@ def write_Q3_file(allIntervals):
             # print(str(aek.getSourceID())+ " "+str(aek.getTargetID()))
     q3file.close()
 
+
 def draw_graphs(allGraphsList):
     j=1
     for g in allGraphsList:
@@ -54,10 +56,12 @@ def draw_centrality_graphs(allGraphsList):
     for g in allGraphsList:
         CalculateCentrality(g['interval'], g['Dgraph'],g['Ugraph'])
 
+
 def get_common_nodes(G,H):
     R=G.copy()
     R.remove_nodes_from(n for n in G if n not in H)
     return R.nodes
+
 
 def get_graph_for_common_nodes(G, n):
     R=G.copy()
@@ -72,6 +76,8 @@ def get_CN(G):
                 commonNeighbors = list(nx.common_neighbors(G, u, v))
                 CN.append((u,v,len(commonNeighbors)))
     return CN
+
+
 def get_GD(G):
     GD=[]
     for t in nx.all_pairs_shortest_path_length(G):
@@ -81,12 +87,14 @@ def get_GD(G):
                 GD.append((u,v,-t[1][v]))
     return GD
 
+
 def get_JC(G):
     JC=[]
     for t in nx.jaccard_coefficient(G):
         if t[0]!=t[1]:
             JC.append(t)
     return JC
+
 
 def get_A(G):
     A=[]
@@ -95,12 +103,14 @@ def get_A(G):
             A.append(t)
     return A
 
+
 def get_PA(G):
     PA=[]
     for t in nx.preferential_attachment(G):
         if t[0] != t[1]:
             PA.append(t)
     return PA
+
 
 def get_success_percent(M0, G1):
     correct = 0
@@ -109,6 +119,7 @@ def get_success_percent(M0, G1):
         if(G1.has_edge(p[0],p[1])):
             correct+=1
     return correct/total
+
 
 def common_nodes_to_file(
     idx, 
@@ -130,7 +141,9 @@ def common_nodes_to_file(
     lines.append("\n".join([e[0]+"-"+e[1] for e in edges1]))
     with open(fileName, 'a') as f:
         f.writelines("\n".join(lines))
-        
+
+
+
 def similarity_measures_to_file(idx,measure,interval0,interval1,S_0,S_1,P,top,successRate):
     fileName = "Similarity_Measures/"+measure+"_"+str(idx)+".txt"
     lines=[]

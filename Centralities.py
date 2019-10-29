@@ -5,6 +5,7 @@ import networkx as nx
 
 pic = 0
 
+
 def CalculateCentrality(interval, DirectedGraph, UndirectedGraph):
     # DegreeCentrality(interval, G)
     # ClosenessCentrality(interval, G)
@@ -24,31 +25,38 @@ def Centrality(interval, G, title):
     dc = 0
     label = ""
     if title == "DegreeCentrality":
-        dc = list(nx.degree_centrality(G).items(), key=lambda kv: kv[1])
+        # dc = list(nx.degree_centrality(G).items(), key=lambda kv: kv[1])
+        dc = list(nx.degree_centrality(G).items())
         label = "Degree Centrality"
     elif title == "ClosenessCentrality":
-        dc = list(nx.closeness_centrality(G).items(), key=lambda kv: kv[1])
+        # dc = list(nx.closeness_centrality(G).items(), key=lambda kv: kv[1])
+        dc = list(nx.closeness_centrality(G).items())
         label = "Closeness Centrality"
     elif title == "BetweennesCentrality":
-        dc = list(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1])
+        # dc = list(nx.betweenness_centrality(G).items(), key=lambda kv: kv[1])
+        dc = list(nx.betweenness_centrality(G).items())
         label = "Betweennes Centrality"
     elif title == "EigenvectorCentrality":
-        dc = list(nx.eigenvector_centrality_numpy(G,1000).items(), key=lambda kv: kv[1])
+        # dc = list(nx.eigenvector_centrality_numpy(G,1000).items(), key=lambda kv: kv[1])
+        dc = list(nx.eigenvector_centrality_numpy(G, 1000).items())
         label = "Eigenvector Centrality"
     elif title == "KatzCentrality":
-        dc = list(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1])
+        # dc = list(nx.katz_centrality_numpy(G).items(), key=lambda kv: kv[1])
+        dc = list(nx.katz_centrality_numpy(G).items())
         label = "Katz Centrality"
     elif title == "InDegreeCentrality":
-        dc = list(nx.in_degree_centrality(G).items(), key=lambda kv: kv[1])
+        # dc = list(nx.in_degree_centrality(G).items(), key=lambda kv: kv[1])
+        dc = list(nx.in_degree_centrality(G).items())
         label= "In-Degree Centrality"
     elif title == "OutDegreeCentrality":
-        dc = list(nx.out_degree_centrality(G).items(), key=lambda kv: kv[1])
+        # dc = list(nx.out_degree_centrality(G).items(), key=lambda kv: kv[1])
+        dc = list(nx.out_degree_centrality(G).items())
         label= "Out-Degree Centrality"
 
 
     i = 0
     vals={} 
-    for v in b:
+    for v in dc:
         if v[1] in vals:
             vals[v[1]]+=1
         else:
